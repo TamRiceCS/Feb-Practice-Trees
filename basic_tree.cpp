@@ -6,12 +6,14 @@ private:
         node *left;
         node *right;
         int value;
+        bool valid;
 
-        node(node *_left, node *_right, int _value)
+        node(node *_left, node *_right, int _value, bool _valid)
         {
             left = _left;
             right = _right;
             value = _value;
+            valid = _valid;
         }
     };
 
@@ -25,8 +27,35 @@ private:
     */
 
 public:
-    BasicTree(std::vector<int> tree)
+    BasicTree(std::vector<legalValues> tree)
     {
+        root = new node(tree[0], nullptr, nullptr, true);
+
+        int index = 1;
+        std::queue<node *> traverse;
+        traverse.push(root);
+
+        while (index < tree.size() && !traverse.empty())
+        {
+            node *parent = traverse.front();
+            traverse.pop();
+
+            if (parent == nullptr)
+            {
+                index += 2;
+                continue;
+            }
+
+            int value = 0;
+            if (tree[index].legal)
+            {
+            }
+            parent->left = new node(tree[index++].value, nullptr, nullptr);
+            parent->right = new node(tree[index++].value, nullptr, nullptr);
+
+            traverse.push(parent->left);
+            traverse.push(parent->right);
+        }
     }
 
     void preorder(node *n)

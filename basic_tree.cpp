@@ -7,6 +7,7 @@ private:
         node *right;
         int value;
         bool valid;
+        std::string type;
 
         node(node *_left, node *_right, int _value, bool _valid)
         {
@@ -129,6 +130,18 @@ public:
         }
     }
 
+    /*
+    1. Find parent by value, report back all nodes that match and their children, let user confirm
+    2. If ambiguous where to add (can be left or right child), ask!
+    3. Create and append to nodes.
+    4. REJECT additions that are out of bounds of tree size.
+    */
     void addNode();
+    /*
+    3 add cases need to consider
+        - no children = just remove
+        - one child = replace parent w/ child
+        - two children = no set rule but pick left as parent then right as it's left child
+    */
     void removeNode();
 };

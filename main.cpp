@@ -7,7 +7,7 @@
 void loadNbN()
 {
 }
-void loadFile(std::vector<treeValues> &vTree)
+void loadBasicFile(std::vector<treeValues> &vTree)
 {
 
     std::string fileName = "";
@@ -53,6 +53,7 @@ void loadFile(std::vector<treeValues> &vTree)
     number = 0;
 
     std::getline(vTreeFile, fileLine);
+    // TODO: a quick check for validity, count how many ',' are present.
     for (int i = 0; i < fileLine.size(); i++)
     {
         if (std::isdigit(fileLine[i]))
@@ -80,6 +81,7 @@ void loadFile(std::vector<treeValues> &vTree)
             std::cout << "Tree contains a node w/ an invalid value..." << std::endl;
             return;
         }
+        // TODO: first user out when there are too many nodes.
     }
 
     std::cout << "\n[";
@@ -92,20 +94,19 @@ void loadFile(std::vector<treeValues> &vTree)
     std::cout << vTree[vTree.size() - 1].value << "]" << std::endl;
 }
 
-void buildMenu(int &step, std::vector<treeValues> &vTree)
+bool basicTree(std::vector<treeValues> &vTree)
 {
+    std::cout << "Operations of a basic tree are..." << std::endl;
+    std::cout << "   1. Pre-Order Traversal..." << std::endl;
+    std::cout << "   2. In-Order Traversal..." << std::endl;
+    std::cout << "   3. Post-Order Traversal..." << std::endl;
+    std::cout << "   4. Level-Order Traversal..." << std::endl;
+    std::cout << "   5. Add a Node..." << std::endl;
+    std::cout << "   6. Delete a Node..." << std::endl;
 
     char userInput = '0';
 
-    std::cout << "\nHere are some base rules: " << std::endl;
-    std::cout << "   -Values are only allowed to vary [-1000, 1000] and null..." << std::endl;
-    std::cout << "   -Represent nullptrs as the singular character n..." << std::endl;
-    std::cout << "   -You can only have 25 nodes max..." << std::endl;
-
-    std::cout << "\nHow would you like to build your tree:" << std::endl;
-    std::cout << "   1. Give a file that contains the graph in vector form..." << std::endl;
-    std::cout << "   2. Generate a graph giving nodes one at a time..." << std::endl;
-    std::cout << "   Press \'x\' to exit the program..." << std::endl;
+    return true; // true to continue the program...
 
     while (true)
     {
@@ -117,19 +118,55 @@ void buildMenu(int &step, std::vector<treeValues> &vTree)
         {
         case 'x':
         {
-            step = 0;
+            return false;
+        }
+        }
+    }
+}
+
+void buildMenu(std::vector<treeValues> &vTree)
+{
+
+    char userInput = '0';
+
+    std::cout << "\nHere are some base rules: " << std::endl;
+    std::cout << "   -Values are only allowed to vary [-1000, 1000] and null..." << std::endl;
+    std::cout << "   -Represent nullptrs as the singular character n..." << std::endl;
+    std::cout << "   -Repeated values are allowed...." << std::endl;
+    std::cout << "   -You can only have 25 nodes max..." << std::endl;
+
+    std::cout << "\nWhich tree type would you like to build:" << std::endl;
+    std::cout << "   1. Generic Tree..." << std::endl;
+    std::cout << "   2. Binary Tree..." << std::endl;
+    std::cout << "   3. Ternary Tree..." << std::endl;
+    std::cout << "   4. AVL Tree..." << std::endl;
+    std::cout << "   5. Red-Black Tree..." << std::endl;
+    std::cout << "   6. Segment Tree..." << std::endl;
+    std::cout << "   7. B-Tree..." << std::endl;
+    std::cout << "     ***N-ary trees will be skipped as it builds on patterns between 2-node and 3-node trees..."
+              << std::endl;
+    std::cout << "x. Enter the letter \'x\' to quit the program..." << std::endl;
+
+    while (true)
+    {
+        std::cout << "\nYour input: ";
+        std::cin.clear();
+        std::cin >> userInput;
+
+        switch (userInput)
+        {
+        case 'x':
+        {
             return;
         }
         case '1':
         {
-            loadFile(vTree);
-            return;
+            loadBasicFile(vTree);
             break;
         }
         case '2':
         {
 
-            loadFile(vTree);
             break;
         }
         default:
@@ -145,12 +182,9 @@ int main()
 {
     std::cout << "\nWelcome to my graph practice code..." << std::endl;
 
-    int step = 1;
     std::vector<treeValues> vTree;
-    if (step == 1)
-    {
-        buildMenu(step, vTree);
-    }
+    buildMenu(vTree);
+
     std::cout << "\nThank you, bye!" << std::endl;
 
     return 0;
